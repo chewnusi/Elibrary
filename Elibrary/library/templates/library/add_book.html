@@ -1,0 +1,152 @@
+{% load static %}
+
+{% block css %}
+<style>
+    body {
+        font-family: 'Serif', Georgia, serif; 
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh; 
+        background-color: rgb(233, 230, 227);
+    }
+
+    .container-fluid {
+        padding: 15px;
+        display: flex; 
+        align-items: center; 
+    }
+
+    .navbar {
+        border-bottom: 1px solid #5c6166; 
+        background-color: #001f3f;
+        width: 100%;
+        position: fixed;
+        top: 0;
+    }
+
+    .navbar-brand {
+        font-size: 3.5rem;
+        font-family: 'Fantasy', Copperplate, Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; 
+        color: #d2d2d2; 
+        margin-right: 20px;
+    }
+    
+    .navbar-nav {
+        margin-left: auto;
+        display: flex; 
+        align-items: center; 
+    }
+
+    .navbar-nav .nav-item {
+        margin-right: 15px;
+        list-style-type: none;
+    }
+
+    .navbar-nav .nav-link {
+        font-size: 1.3rem;
+        font-family: 'Serif', Georgia, serif; 
+        color: #b1aeae; 
+    }
+
+    .navbar-nav .nav-link:hover {
+        color: #717171; 
+    }
+
+    .container {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        max-width: 400px;
+        margin: auto;
+        margin-top: 50px;
+        margin: 80px auto 20px;
+    }
+
+    h1 {
+        color: #0d4c90;
+        text-decoration: none;
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+    .form-control {
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        padding: 10px;
+    }
+
+    .btn-outline-primary {
+        color: #0f539b;
+        border-color: #0f539b;
+    }
+
+    .btn-outline-primary:hover {
+        background-color: #0f539b;
+        color: #cdcdcd;
+    }
+</style>   
+{% endblock %}
+
+{% block body %}
+<nav class="navbar sticky-top">
+    <div class="container-fluid">
+        <span class="navbar-brand fw-bolder">E-Library</span>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex"> 
+                <li class="nav-item">
+                    <a class="nav-link active" href="/library/admin_main/">Home</a>
+                </li>
+            </ul>   
+        </div> 
+    </div>
+</nav>
+<div class="container">
+    <form method="POST"> {% csrf_token %}
+        <br>
+        <h1 class="text-center"><u><i>Add book</i></u></h1><br>
+        {% if book_added %}
+            <div class="alert alert-success" role="alert">
+                Book successfully added!
+            </div>
+        {% endif %}
+        <div class="row mt-4">
+            <div class="form-group col-md-12">
+                <label><i style="font-weight: bold;">ISBN Number</i></label>
+                <input type="number" class="form-control mt-2" name="isbn" placeholder="Enter ISBN of the book" required>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="form-group col-md-12">
+                <label><i style="font-weight: bold;">Book Title</i></label>
+                <input type="text" class="form-control mt-2" name="title" placeholder="Enter title of the Book" required>
+            </div>
+        </div>
+    
+        <div class="row mt-4">
+            <div class="form-group col-md-12">
+                <label><i style="font-weight: bold;">Author</i></label>
+                <input type="text" class="form-control mt-2" name="author" placeholder="Enter Author" required>
+            </div>
+        </div>
+    
+        <div class="row mt-4">
+            <div class="form-group col-md-12">
+                <label><i style="font-weight: bold;">Category</i></label>
+                <input type="text" class="form-control mt-2" name="category" placeholder="Enter Category of the book" required>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-outline-primary mt-4">Add Book</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block js %}
+{% endblock %}

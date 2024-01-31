@@ -1,0 +1,188 @@
+{% load static %}
+
+<html lang="en" ng-app="library.demo">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{% block title %}E-Library{% endblock %}</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+
+    {% block css %}
+<style>
+    body {
+        font-family: 'Serif', Georgia, serif; 
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh; 
+        background-color: rgb(233, 230, 227);
+    }
+
+    .container-fluid {
+        padding: 15px;
+        display: flex;
+    }
+
+    .navbar {
+        border-bottom: 1px solid #5c6166; 
+        background-color: #001f3f;
+        width: 100%;
+        position: fixed;
+        top: 0;
+    }
+
+    .navbar-brand {
+        font-size: 3.5rem;
+        font-family: 'Fantasy', Copperplate, Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; 
+        color: #d2d2d2; 
+        margin-right: 20px;
+    }
+
+    .navbar-nav {
+        margin-left: auto;
+        display: flex; 
+        align-items: center; 
+    }
+
+    .navbar-nav .nav-item {
+        margin-right: 15px;
+        list-style-type: none;
+    }
+
+    .navbar-nav .nav-link {
+        font-size: 1.3rem;
+        font-family: 'Serif', Georgia, serif; 
+        color: #b1aeae; 
+    }
+
+    .navbar-nav .nav-link:hover {
+        color: #717171; 
+    }
+
+    .sticky-top {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .message-container {
+        background-color: rgb(233, 230, 227);
+        padding: 20px;
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    .message {
+        font-size: 2.2rem;
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        font-size: 1.8rem;
+    }    
+
+    caption {
+        caption-side: top;
+        text-align: center;
+        border: 2px solid black; 
+        padding-bottom: 10px;
+        font-size: 2rem;
+        font-weight: bold; 
+
+    }
+    
+
+    th, td {
+        border: 1px solid black; 
+        padding: 8px; 
+        text-align: left; 
+    }
+
+</style>
+{% endblock %}
+</head>
+<body ng-controller="LibraryController">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <span class="navbar-brand fw-bolder">E-Library</span>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex"> 
+                <li class="nav-item">
+                    <a class="nav-link active" href="admin_login/">Admin Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="student_login/">Student Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="student_registration/">Register As Student</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="message-container">
+    <p class="message">Welcome to the library website. Please log in to continue.</p>
+</div>
+
+<div class="container-fluid">
+    <table class="table table-bordered" id="booksTable">
+        <caption class="table-caption">Our books</caption>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Category</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    (function () {
+        'use strict';
+
+        angular.module('library.demo', [])
+            .controller('LibraryController', ['$scope', '$http', LibraryController]);
+
+        function LibraryController($scope, $http) {
+            $scope.data = [];
+            $http.get('/library/books').then(function(response){
+                $scope.data = response.data;
+
+                var tableBody = document.getElementById('booksTable').getElementsByTagName('tbody')[0];
+
+                $scope.data.forEach(function(book) {
+                    if (book.status === 'available' || book.status === 'checked out') {
+                        var row = tableBody.insertRow(tableBody.rows.length);
+                        var cell1 = row.insertCell(0);
+                        cell1.innerHTML = book.title;
+                        var cell2 = row.insertCell(1);
+                        cell2.innerHTML = book.author;
+                        var cell3 = row.insertCell(2);
+                        cell3.innerHTML = book.category;
+                        var cell4 = row.insertCell(3);                    
+                        cell4.innerHTML = book.status;
+                    }
+                });
+            });
+        }    
+    })();
+</script>
+
+
+{% block js %}
+{% endblock %}
+
+</body>
+</html>

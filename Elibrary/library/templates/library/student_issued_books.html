@@ -1,0 +1,162 @@
+{% load static %}
+
+{% block css %}
+<style>
+    body {
+        font-family: 'Serif', Georgia, serif; 
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh; 
+        background-color: rgb(233, 230, 227);
+    }
+
+    .container-fluid {
+        padding: 15px;
+        display: flex; 
+        align-items: center; 
+    }
+
+    .navbar {
+        border-bottom: 1px solid #5c6166; 
+        background-color: #001f3f;
+        width: 100%;
+        position: fixed;
+        top: 0;
+    }
+
+    .navbar-brand {
+        font-size: 3.5rem;
+        font-family: 'Fantasy', Copperplate, Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; 
+        color: #d2d2d2; 
+        margin-right: 20px;
+    }
+    
+    .navbar-nav {
+        margin-left: auto;
+        display: flex; 
+        align-items: center; 
+    }
+
+    .navbar-nav .nav-item {
+        margin-right: 15px;
+        list-style-type: none;
+    }
+
+    .navbar-nav .nav-link {
+        font-size: 1.3rem;
+        font-family: 'Serif', Georgia, serif; 
+        color: #b1aeae; 
+    }
+
+    .navbar-nav .nav-link:hover {
+        color: #717171; 
+    }
+
+    h1 {
+        color: #0d4c90;
+        text-decoration: none;
+    }
+
+    table {
+        border-collapse: collapse;
+        table-layout: fixed;
+        font-size: 1.7rem;
+    }
+
+    th, td {
+        border: 1px solid black; 
+        padding: 8px; 
+        text-align: left; 
+    }
+
+    th {
+        background-color: #001f3f;
+        color: #d2d2d2;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<nav class="navbar sticky-top">
+    <div class="container-fluid">
+        <span class="navbar-brand fw-bolder">E-Library</span>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex"> 
+                <li class="nav-item">
+                    <a class="nav-link active" href="/library/student/">Home</a>
+                </li>
+            </ul>   
+        </div> 
+    </div>
+</nav>
+<h1 class="text-center"><u><i>Your Issued Books</i></u></h1><br>
+<div class="container mt-4">    
+    <table>
+        <thead>
+          <tr>
+            <th>isbn</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Issued Date</th>
+            <th>Expiry Date</th>
+            <th>Return Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for book_info in table_data %}
+            <tr>
+              <td>{{ book_info.isbn }}</td>
+              <td>{{ book_info.title }}</td>
+              <td>{{ book_info.author }}</td>
+              <td>{{ book_info.issued_date }}</td>
+              <td>{{ book_info.expiry_date }}</td>
+              <td>{{ book_info.return_date }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+$(document).ready(function () {
+    $('th').append('<span class="sort-icon">▲</span><span class="sort-icon">▼</span>');
+    
+    $('th').click(function () {
+        var index = $(this).index();
+        if (!$(this).hasClass('no-sort')) {
+            var table = $(this).closest('table');
+            var rows = table.find('tbody > tr').get();
+            rows.sort(function (a, b) {
+                var A = $(a).children('td').eq(index).text().toUpperCase();
+                var B = $(b).children('td').eq(index).text().toUpperCase();
+                return A.localeCompare(B);
+        });
+
+        var sortOrder = $(this).data('sort-order') || 'asc';
+        if (sortOrder === 'asc') {
+            rows.reverse();
+            $(this).data('sort-order', 'desc');
+        } else {
+            $(this).data('sort-order', 'asc');
+        }
+
+        $.each(rows, function (index, row) {
+            table.children('tbody').append(row);
+        });
+
+        table.find('.sort-icon').html('▼');
+        if (sortOrder === 'asc') {
+            $(this).find('.sort-icon').html('▲');
+        }
+    }
+    });
+});
+</script>
+{% endblock %}
