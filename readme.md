@@ -28,3 +28,9 @@ On the homepage of the website, all available and upcoming books can be viewed.
 
 ### View all books (for administrator)
 ![All books](image-2.png)
+
+### Student registration 
+![Student registration](image-3.png)
+
+### Student login
+![Student login](image-4.png)
