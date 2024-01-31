@@ -21,16 +21,16 @@ This project is a library management system designed to cater to the needs of bo
 ### Website Homepage
 On the homepage of the website, all available and upcoming books can be viewed.
 
-![Home page](image.png)
+![Home page](assets/image.png)
 
 ### View all students (for administrator)
-![All students](image-1.png)
+![All students](assets/image-1.png)
 
 ### View all books (for administrator)
-![All books](image-2.png)
+![All books](assets/image-2.png)
 
 ### Student registration 
-![Student registration](image-3.png)
+![Student registration](assets/image-3.png)
 
 ### Student login
-![Student login](image-4.png)
+![Student login](assets/image-4.png)
